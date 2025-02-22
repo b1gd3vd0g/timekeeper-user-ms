@@ -16,10 +16,11 @@ const hash = (pw, salt) => {
 };
 
 /**
- * Generates a random salt string for use in the database.
- * @returns A random salt.
+ * Generates a random salt string that is twice the length of hashSize.
+ * @param {number} hashSize Half the length of the string.
+ * @returns {string} A random salt string.
  */
-const generateSalt = () => {
+const generateSalt = (hashSize = HASH_SIZE) => {
     return crypto.randomBytes(HASH_SIZE).toString('hex');
 };
 
