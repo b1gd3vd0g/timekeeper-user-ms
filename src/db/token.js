@@ -14,22 +14,22 @@ if (!JWT_SECRET) {
 }
 
 /**
- * Generates a JWT containing the information necessary to authenticate a player.
- * @param {object} player An object containing a `username` and `player_id`
- * representative of a single player in the database.
+ * Generates a JWT containing the information necessary to authenticate a user.
+ * @param {object} user An object containing a `username` and `user_id`
+ * representative of a single user in the database.
  * @returns A JWT containing all the necessary information to be used for
  * authentication purposes.
- * @throws an Error if `player` does not have a `username` and a `player_id` field.
+ * @throws an Error if `user` does not have a `username` and a `user_id` field.
  */
-const generateAuthenticationToken = (player) => {
-    const { username, player_id } = player;
-    if (!(username && player_id)) {
-        throw new Error('player.username && player.player_id are required!');
+const generateAuthenticationToken = (user) => {
+    const { username, user_id } = user;
+    if (!(username && user_id)) {
+        throw new Error('user.username && user.user_id are required!');
     }
     return jwt.sign(
         {
             username,
-            player_id
+            user_id
         },
         JWT_SECRET,
         {
