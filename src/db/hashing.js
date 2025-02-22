@@ -21,7 +21,7 @@ const hash = (pw, salt) => {
  * @returns {string} A random salt string.
  */
 const generateSalt = (hashSize = HASH_SIZE) => {
-    return crypto.randomBytes(HASH_SIZE).toString('hex');
+    return crypto.randomBytes(hashSize).toString('hex');
 };
 
 module.exports = { hash, generateSalt };
