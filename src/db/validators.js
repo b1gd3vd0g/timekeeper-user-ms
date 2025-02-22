@@ -58,7 +58,7 @@ const validateUsername = (username) => {
     if (username.length < 6 || username.length > 20) {
         problems.push(rules.username[1]);
     }
-    if (!/^[A-Za-z0-9_]$/.test(username)) {
+    if (!/^[A-Za-z0-9_]+$/.test(username)) {
         problems.push(rules.username[2]);
     }
     if (username.charAt(0) === '_') {
@@ -107,7 +107,7 @@ const validateEmail = (email) => {
     if (domain.length > 255) {
         problems.push(rules.email[2]);
     }
-    if (!/^[A-Za-z0-9.-]$/.test(email)) {
+    if (!/^[A-Za-z0-9.-]+$/.test(domain)) {
         problems.push(rules.email[3]);
     }
     const domains = domain.split('.');
