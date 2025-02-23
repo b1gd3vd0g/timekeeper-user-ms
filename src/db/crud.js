@@ -145,7 +145,7 @@ const fetchUserByToken = async (token) => {
     let users = [];
     try {
         users = await sql`
-            SELECT username, user_id, email, f_name, l_name, job_title
+            SELECT username, user_id, email, f_name, l_name, job_title, created
                 FROM users
                 WHERE username = ${username}
                     AND user_id = ${user_id}
