@@ -13,6 +13,6 @@ app.use(
 
 app.use(express.json());
 
-app.use('/', require('./routers/base_router'));
+app.use('/', require('./router'));
 
 module.exports = app;
