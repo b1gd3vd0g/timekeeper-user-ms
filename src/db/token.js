@@ -15,16 +15,17 @@ if (!JWT_SECRET) {
 
 /**
  * Generates a JWT containing the information necessary to authenticate a user.
- * @param {object} user An object containing a `username` and `user_id`
+ * The token is good for 30 days.
+ * @param {object} user An object containing a `username` and `user_id`,
  * representative of a single user in the database.
- * @returns A JWT containing all the necessary information to be used for
+ * @returns {string} A JWT containing all the necessary information to be used for
  * authentication purposes.
  * @throws an Error if `user` does not have a `username` and a `user_id` field.
  */
 const generateAuthenticationToken = (user) => {
     const { username, user_id } = user;
     if (!(username && user_id)) {
-        throw new Error('user.username && user.user_id are required!');
+        throw new Error('user.username and user.user_id are required fields!');
     }
     return jwt.sign(
         {
@@ -41,8 +42,17 @@ const generateAuthenticationToken = (user) => {
 /**
  * Verifies an authentication token, and returns the payload upon success.
  * @param {string} token The JSON web token (provided by the `generateAuthenticationToken` function) to be verified.
- * @returns An object with a success boolean, and if that is true, a payload from the token - otherwise, returns a
- * message explaining why the token was rejected, and a three digit code to make life easier coding the front end.
+ * @returns {object}
+ * ```
+ * {
+ *      success: boolean,
+ *      // if success:
+ *      payload?: object,
+ *      // if !success:
+ *      code?: ['ABS' | 'EXP' | 'EAR' | 'INV'],
+ *      message?: string // describes what went wrong
+ * }
+ * ```
  */
 const verifyAuthenticationToken = (token) => {
     if (!token) {
@@ -63,13 +73,13 @@ const verifyAuthenticationToken = (token) => {
             return {
                 success: false,
                 code: 'EXP',
-                message: 'Token is expired!'
+                message: 'Token is expired.'
             };
         } else if (e instanceof jwt.NotBeforeError) {
             return {
                 success: false,
                 code: 'EAR',
-                message: 'It is too early to use this token!'
+                message: 'It is too early to use this token.'
             };
         } else {
             return {
