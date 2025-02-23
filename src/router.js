@@ -2,7 +2,7 @@ const {
     fetchUserByToken,
     authenticateUserLogin,
     createUser
-} = require('../db/crud');
+} = require('./db/crud');
 
 const router = require('express').Router();
 
