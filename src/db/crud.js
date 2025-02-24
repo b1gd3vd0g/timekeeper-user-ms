@@ -1,6 +1,6 @@
 const { generateSalt, hash } = require('./hashing');
 const { ApiResponse } = require('./responses');
-const { validateAll } = require('./validators');
+const { validateAll, rules } = require('./validators');
 const sql = require('./sql');
 const {
     verifyAuthenticationToken,
@@ -97,7 +97,30 @@ const createUser = async (
     const validation = validateAll(username, email, password);
     if (!validation.success) {
         delete validation.success;
-        return new ApiResponse(400, validation);
+        return new ApiResponse(400, { problems: validation });
+    }
+    // Ensure case insensitive uniqueness.
+    const problems = {};
+    const unMatches = await sql`
+        SELECT username 
+            FROM users 
+            WHERE lower(username) = lower(${username})
+            LIMIT 1;
+    `;
+    if (unMatches.length > 0) {
+        problems.username = rules.username[4];
+    }
+    const emMatches = await sql`
+        SELECT username
+            FROM users
+            WHERE lower(email) = lower(${email})
+            LIMIT 1;
+    `;
+    if (emMatches.length > 0) {
+        problems.email = rules.email[11];
+    }
+    if (problems.email || problems.username) {
+        return new ApiResponse(400, { problems });
     }
 
     // Create db object.
