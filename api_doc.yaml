@@ -1,0 +1,49 @@
+openapi: 3.0.0
+info:
+  version: 0.1.0
+  title: Timekeeper User Microservice
+paths:
+  /:
+    post:
+      requestBody:
+        $ref: '#/components/requestBodies/NewUserFields'
+      responses:
+        201:
+          description: User created successfully.
+        400:
+          description: Ok.
+        500:
+          description: Ok.
+  /auth:
+    get:
+      responses:
+        200:
+          description: Ok.
+    post:
+      responses:
+        200:
+          description: Ok.
+components:
+  requestBodies:
+    NewUserFields:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              username:
+                type: string
+              password:
+                type: string
+              email:
+                type: string
+              f_name:
+                type: string
+              l_name:
+                type: string
+              job_title:
+                type: string
+            required:
+              - username
+              - password
+              - email
