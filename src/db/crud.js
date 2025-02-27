@@ -124,11 +124,9 @@ const createUser = async (
     }
 
     // Create db object.
-    const userId = generateSalt(8);
     const salt = generateSalt();
     const hashedPw = hash(password, salt);
     const dbObj = {
-        user_id: userId,
         username,
         email,
         password: hashedPw,
