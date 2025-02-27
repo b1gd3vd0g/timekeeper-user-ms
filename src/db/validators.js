@@ -143,8 +143,9 @@ const validateEmail = (email) => {
         problems.push(rules.email[9]);
     }
     const symbols = '_.!#$%&-';
-    for (let i = 0; i < domain.length; i++) {
+    for (let i = 0; i < prefix.length; i++) {
         if (
+            i + 1 < prefix.length &&
             symbols.includes(
                 prefix.charAt(i) && symbols.includes(prefix.charAt(i + 1))
             )
